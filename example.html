@@ -24,9 +24,31 @@
 			alert("Changed a tag: " + tag);
 		}
 
+var tidyTags = function(e) {
+    var tags = ($(e.target).val() + " " + e.tags).split(" ");
+    var target = $(e.target);
+    target.importTags('');
+    for (var i = 0, z = tags.length; i<z; i++) {
+        var tag = tags[i];
+        if (!target.tagExist(tag)) {
+            target.addTag(tag);
+        }
+    }
+    $('#' + target[0].id + '_tag').trigger('focus');
+};
 		$(function() {
 
-			$('#tags_1').tagsInput({width:'auto'});
+			$('#tags_1').tagsInput({width:'auto', delimiter: [" "],
+
+onAddTag : function(tag){
+  console.log(tag);
+    if(tag.indexOf(" ") > 0){
+      console.log("thoeuoe");
+        tidyTags({target: '#tags_1', tags : tag});
+         }
+     }
+      });
+
 			$('#tags_2').tagsInput({
 				width: 'auto',
 				onChange: function(elem, elem_tags)
